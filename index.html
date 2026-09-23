@@ -1,0 +1,689 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Рекламное агентство полного цикла ХХХ | Стратегия, медиапланирование, производство</title>
+    <style>
+        /* ----- СБРОС И БАЗОВЫЕ ПЕРЕМЕННЫЕ ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0b0f19;
+            --bg-card: #141a2b;
+            --bg-card-hover: #1e2640;
+            --accent-1: #ff4d6d;
+            --accent-2: #3a86ff;
+            --accent-3: #8338ec;
+            --text-light: #f8f9fe;
+            --text-muted: #a5b0d4;
+            --gradient-main: linear-gradient(135deg, #ff4d6d 0%, #3a86ff 50%, #8338ec 100%);
+            --gradient-soft: linear-gradient(135deg, rgba(255,77,109,0.15) 0%, rgba(58,134,255,0.15) 100%);
+            --shadow-card: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
+            --border-glass: 1px solid rgba(255, 255, 255, 0.06);
+            --radius-card: 24px;
+            --radius-sm: 16px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            font-weight: 400;
+            overflow-x: hidden;
+        }
+
+        /* Плавные градиентные пятна на фоне */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(58,134,255,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(255,77,109,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ----- ТИПОГРАФИКА И ГРАДИЕНТНЫЙ ЗАГОЛОВОК ----- */
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            /* эффект прозрачности текста (подсветка) */
+            text-shadow: 0 0 30px rgba(58,134,255,0.4);
+            opacity: 0.95;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-main);
+            border-radius: 4px;
+        }
+
+        /* ----- ХЕДЕР / ГЕРОЙ ----- */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(58, 134, 255, 0.12);
+            border: var(--border-glass);
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #b8c7ff;
+            margin-bottom: 28px;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin: 28px auto 32px;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 34px;
+            border-radius: 60px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary {
+            background: var(--gradient-main);
+            border: none;
+            box-shadow: 0 8px 28px -6px rgba(255,77,109,0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px -8px rgba(255,77,109,0.5);
+            filter: brightness(1.05);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ----- КАРТОЧКИ УСЛУГ (сетка) ----- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 26px;
+            margin: 50px 0 70px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: var(--border-glass);
+            border-radius: var(--radius-card);
+            padding: 32px 24px;
+            box-shadow: var(--shadow-card);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-main);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-10px) scale(1.01);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 30px 45px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(58,134,255,0.2);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            background: var(--gradient-soft);
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            flex-grow: 1;
+        }
+
+        /* ----- КЕЙСЫ В ВЫДЕЛЕННЫХ БЛОКАХ ----- */
+        .cases-section {
+            margin: 80px 0 70px;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        .case-block {
+            background: linear-gradient(145deg, #161e33, #0f1422);
+            border-radius: var(--radius-card);
+            padding: 36px 30px;
+            border: 1px solid rgba(58, 134, 255, 0.25);
+            box-shadow: 0 16px 30px -12px rgba(0,0,0,0.8);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-block::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,77,109,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .case-block:hover {
+            border-color: rgba(255, 77, 109, 0.6);
+            transform: scale(1.01);
+            box-shadow: 0 25px 40px -12px rgba(255,77,109,0.2);
+        }
+
+        .case-tag {
+            display: inline-block;
+            background: rgba(58, 134, 255, 0.2);
+            border-radius: 60px;
+            padding: 6px 18px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: #a6c1ff;
+            margin-bottom: 18px;
+            border: 1px solid rgba(58,134,255,0.3);
+        }
+
+        .case-block h3 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .case-block .case-metric {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 15px 0 8px;
+            line-height: 1.1;
+        }
+
+        .case-block p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        /* ----- СЕТКА ИНСТРУМЕНТОВ (ТЕГИ) ----- */
+        .tools-section {
+            margin: 70px 0 90px;
+        }
+
+        .tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 14px;
+            margin-top: 30px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #d0dbff;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+            letter-spacing: 0.01em;
+        }
+
+        .tag:hover {
+            background: rgba(58, 134, 255, 0.2);
+            border-color: rgba(58, 134, 255, 0.5);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px -8px rgba(58,134,255,0.6);
+        }
+
+        .tag.accent {
+            background: rgba(255, 77, 109, 0.15);
+            border-color: rgba(255, 77, 109, 0.4);
+            color: #ffb3c1;
+        }
+
+        .tag.accent:hover {
+            background: rgba(255, 77, 109, 0.3);
+            border-color: rgba(255, 77, 109, 0.8);
+            color: white;
+        }
+
+        /* ----- БЛОК ДОВЕРИЯ / ПРЕИМУЩЕСТВА (визуальная иерархия) ----- */
+        .trust-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+            background: rgba(20, 26, 43, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 48px 44px;
+            margin: 70px 0;
+            border: var(--border-glass);
+        }
+
+        .trust-item {
+            flex: 1 1 200px;
+        }
+
+        .trust-item .number {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .trust-item .label {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* ----- ФУТЕР ----- */
+        footer {
+            padding: 40px 0 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        /* ----- АДАПТИВНОСТЬ ----- */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-section {
+                flex-direction: column;
+                gap: 30px;
+                padding: 32px 24px;
+                text-align: center;
+            }
+
+            .trust-item .number {
+                font-size: 2.2rem;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .btn {
+                padding: 12px 26px;
+                font-size: 0.95rem;
+            }
+
+            .case-block h3 {
+                font-size: 1.5rem;
+            }
+
+            .case-block .case-metric {
+                font-size: 2rem;
+            }
+
+            .section-title::after {
+                width: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .service-card {
+                padding: 24px 20px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                text-align: center;
+            }
+
+            .trust-section {
+                padding: 26px 18px;
+            }
+        }
+
+        /* Плавные анимации при загрузке */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero, .services-grid, .cases-section, .tools-section, .trust-section {
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .services-grid { animation-delay: 0.1s; }
+        .cases-section { animation-delay: 0.2s; }
+        .tools-section { animation-delay: 0.3s; }
+        .trust-section { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- ГЕРОЙ-СЕКЦИЯ -->
+        <section class="hero container">
+            <div class="hero-badge">★ полный цикл рекламных кампаний</div>
+            <h1>
+                <span class="gradient-text">Рекламное агентство</span><br>
+                <span class="gradient-text" style="font-size:0.9em;">полного цикла ХХХ</span>
+            </h1>
+            <p>От идеи до измеримого результата. Разрабатываем стратегию, подбираем каналы, производим и запускаем рекламу, контролируем размещение и предоставляем отчётность.</p>
+            <div class="hero-actions">
+                <a href="#" class="btn btn-primary">Обсудить проект</a>
+                <a href="#" class="btn btn-outline">Смотреть кейсы</a>
+            </div>
+        </section>
+
+        <!-- КАРТОЧКИ УСЛУГ (с анимацией при наведении) -->
+        <section class="container">
+            <h2 class="section-title">Ключевые услуги</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Рекламная концепция</h3>
+                    <p>Разработка креативной стратегии, позиционирования и ключевых сообщений, которые попадают в аудиторию.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Медиапланирование</h3>
+                    <p>Подбор оптимальных каналов и носителей под задачи, географию, ЦА и бюджет с прогнозом эффективности.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3>Наружная реклама</h3>
+                    <p>Изготовление и размещение баннеров, билбордов, вывесок, брендирование транспорта и остановок.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚇</div>
+                    <h3>Размещение в медиа</h3>
+                    <p>Метро, телевидение, транспорт, пресса, радио — охватные кампании с контролем выхода и отчётностью.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <h3>Реклама в интернете</h3>
+                    <p>Таргетированная, баннерная, видеореклама, продвижение в соцсетях и programmatic-закупки.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>Контекстная реклама</h3>
+                    <p>Яндекс.Директ, Google Ads, настройка и ведение кампаний с оптимизацией ставок и целей.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📈</div>
+                    <h3>SEO-продвижение</h3>
+                    <p>Вывод сайта в топ поисковых систем, техническая оптимизация, работа с семантикой и ссылочным профилем.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✍️</div>
+                    <h3>Контент-маркетинг</h3>
+                    <p>Создание статей, кейсов, видео и ведение соцсетей для привлечения и удержания клиентов.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПРИМЕРЫ КЕЙСОВ В ВЫДЕЛЕННЫХ БЛОКАХ -->
+        <section class="cases-section container">
+            <h2 class="section-title">Примеры кейсов</h2>
+            <div class="cases-grid">
+                <div class="case-block">
+                    <span class="case-tag">Наружная реклама + метро</span>
+                    <h3>Сеть кофеен «Утро»</h3>
+                    <div class="case-metric">+47%</div>
+                    <p>Рост узнаваемости за 2 месяца. Разместили 120 конструкций в метро и 30 билбордов в центре города. Разработали концепцию и провели производство.</p>
+                </div>
+                <div class="case-block">
+                    <span class="case-tag">Контекст + SEO</span>
+                    <h3>Интернет-магазин «ТехноМир»</h3>
+                    <div class="case-metric">x2.3</div>
+                    <p>Увеличение продаж за 4 месяца. Комплексная кампания: контекстная реклама, SEO и контент-маркетинг. Снизили стоимость лида на 38%.</p>
+                </div>
+                <div class="case-block">
+                    <span class="case-tag">ТВ + радио + пресса</span>
+                    <h3>Автосалон «Драйв»</h3>
+                    <div class="case-metric">+62%</div>
+                    <p>Рост числа тест-драйвов. Медиапланирование и запуск на ТВ, радио и в глянцевых журналах. Полный цикл: от идеи до отчёта по охвату.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- СЕТКА ИНСТРУМЕНТОВ В ВИДЕ ТЕГОВ -->
+        <section class="tools-section container">
+            <h2 class="section-title">Инструменты и каналы</h2>
+            <div class="tags-cloud">
+                <span class="tag">Яндекс.Директ</span>
+                <span class="tag">Google Ads</span>
+                <span class="tag">VK Реклама</span>
+                <span class="tag">myTarget</span>
+                <span class="tag">Meta Ads</span>
+                <span class="tag">Programmatic</span>
+                <span class="tag">YouTube</span>
+                <span class="tag">Telegram Ads</span>
+                <span class="tag accent">Наружная реклама</span>
+                <span class="tag accent">Метро</span>
+                <span class="tag accent">ТВ</span>
+                <span class="tag accent">Радио</span>
+                <span class="tag accent">Пресса</span>
+                <span class="tag accent">Транспорт</span>
+                <span class="tag">SEO</span>
+                <span class="tag">Контент-маркетинг</span>
+                <span class="tag">Веб-аналитика</span>
+                <span class="tag">Call-трекинг</span>
+                <span class="tag">Медиапланирование</span>
+                <span class="tag">Креатив</span>
+            </div>
+        </section>
+
+        <!-- БЛОК ПРЕИМУЩЕСТВ / ВИЗУАЛЬНАЯ ИЕРАРХИЯ -->
+        <section class="trust-section container">
+            <div class="trust-item">
+                <div class="number">15+</div>
+                <div class="label">лет на рынке рекламы</div>
+            </div>
+            <div class="trust-item">
+                <div class="number">500+</div>
+                <div class="label">реализованных кампаний</div>
+            </div>
+            <div class="trust-item">
+                <div class="number">360°</div>
+                <div class="label">полный цикл: от стратегии до отчёта</div>
+            </div>
+            <div class="trust-item">
+                <div class="number">100%</div>
+                <div class="label">прозрачные условия и измеримый результат</div>
+            </div>
+        </section>
+
+        <!-- ДОПОЛНИТЕЛЬНЫЙ ТЕКСТ О ПОДХОДЕ (НЕОБЯЗАТЕЛЬНО, НО ПОЛЕЗНО ДЛЯ ИЕРАРХИИ) -->
+        <section class="container" style="margin-bottom: 80px;">
+            <div style="background: rgba(20,26,43,0.5); border-radius: 32px; padding: 38px 36px; border: var(--border-glass);">
+                <h3 style="font-size: 1.6rem; margin-bottom: 18px;" class="gradient-text">Сопровождаем на всех этапах</h3>
+                <p style="color: var(--text-muted); max-width: 900px; font-size: 1.05rem;">
+                    Агентство берет на себя все этапы процесса: от разработки стратегии до сбора результатов рекламы. 
+                    Подбираем рекламные каналы под задачи бизнеса, географию продвижения, целевую аудиторию и бюджет, 
+                    чтобы реклама работала на узнаваемость бренда, привлечение клиентов и рост продаж. 
+                    Запускаем как локальные, так и масштабные кампании, предлагая понятные решения, прозрачные условия 
+                    сотрудничества, отчётность и измеримый результат.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Рекламное агентство ХХХ</div>
+            <p>Полный цикл рекламных кампаний · Москва · 2025</p>
+            <p style="margin-top: 8px; font-size: 0.8rem; opacity: 0.7;">Все права защищены. Информация на сайте не является публичной офертой.</p>
+        </div>
+    </footer>
+</body>
+</html>
